@@ -19,10 +19,6 @@ int main(int argc, char* argv[])
 	}
 
 	SDL_RaiseWindow(window);
-	SDL_Rect test;
-	test.x = 520;
-	test.y = 520;
-	SDL_RenderFillRect(renderer, &test);
 
 
 	window = SDL_CreateWindow("2048", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
