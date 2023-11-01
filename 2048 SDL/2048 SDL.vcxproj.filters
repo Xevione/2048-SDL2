@@ -38,5 +38,8 @@
     <ClInclude Include="..\..\Chotaki\2048-2.0\2048\Test.h">
       <Filter>Fichiers de ressources</Filter>
     </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Fichiers de ressources</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

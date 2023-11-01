@@ -2,9 +2,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <conio.h>
 #include <windows.h>
 #include <SDL.h>
 #include "Grid.h"
+
+
+#define KEY_UP 72
+#define KEY_DOWN 80
+#define KEY_LEFT 75
+#define KEY_RIGHT 77
 
 
 
@@ -13,13 +20,10 @@ int main(int argc, char* argv[])
 {
 	int windowSize = 1000;
 	int statut = EXIT_FAILURE;
-	bool Game = true;
-	SDL_Window* window = NULL;
+	bool game = true;
+	SDL_Window* window = nullptr;
 	Grid* oGrid = new Grid();
-	SDL_Renderer* renderer = NULL;
-	SDL_Surface* bomba = NULL;
-	SDL_Texture* bombaTexture = NULL;
-	bomba = SDL_LoadBMP("src/bomba.bmp");
+	SDL_Renderer* renderer = nullptr;
 	
 
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -27,45 +31,56 @@ int main(int argc, char* argv[])
 		goto Quit;
 	}
 
-	SDL_RaiseWindow(window);
-	
-
-	window = SDL_CreateWindow("2048", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		windowSize, windowSize, SDL_WINDOW_SHOWN);
-
-
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	SDL_Rect grid;
-	grid.x = 250;
-	grid.y = 250;
-	grid.w = 500;
-	grid.h = 500;
-	SDL_Rect rect[16];
-
-	for (int i = 0; i < 4 ; i++)
+	while (game = true)
 	{
-		for (int j = 0; j < 4; j++)
-		{
-			rect[i * 4 + j].w = 100;
-			rect[i * 4 + j].h = 100;
-			rect[i * 4 + j].x = 270 + 120 * i;
-			rect[i * 4 + j].y = 270 + 120 * j;
-
+		SDL_RaiseWindow(window);
+		window = SDL_CreateWindow("2048", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+			windowSize, windowSize, SDL_WINDOW_SHOWN);
+		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+		
+		oGrid->RandomTile();
+		oGrid->ResetMerge();
+		cout << endl;
+		if (oGrid->Win() == true) {
+			game = false;
+			cout << "you won !";
+			break;
 		}
+		if (oGrid->Loose() == true) {
+			game = false;
+			cout << "you lost !";
+			break;
+		}
+		bool badKey = true;
+		while (badKey)
+		{
+			badKey = false;
+			int c = 0;
+			switch ((c = _getch()))
+			{
+			case KEY_UP:
+				oGrid->TilePlayUp();
+				break;
+			case KEY_DOWN:
+				oGrid->TilePlayDown();
+				break;
+			case KEY_RIGHT:
+				oGrid->TilePlayRight();
+				break;
+			case KEY_LEFT:
+				oGrid->TilePlayLeft();
+				break;
+			default:
+				badKey = true;
+				break;
+			}
+		}
+
 	}
-	bombaTexture = SDL_CreateTextureFromSurface(renderer, bomba);
+
+	delete oGrid;
+
 	
-	SDL_SetRenderDrawColor(renderer, 0, 0, 255, 0);
-	SDL_RenderFillRect(renderer, &grid);
-	//SDL_RenderDrawRect(renderer, &grid);
-	SDL_SetRenderDrawColor(renderer, 0, 255, 0,0);
-	SDL_RenderFillRect(renderer, rect);
-
-
-
-
-	SDL_RenderPresent(renderer);
-	SDL_Delay(5000);
 
 
 Quit:
