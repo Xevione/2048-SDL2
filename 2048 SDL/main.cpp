@@ -22,25 +22,23 @@ int main(int argc, char* argv[])
 	int statut = EXIT_FAILURE;
 	bool game = true;
 	SDL_Window* window = nullptr;
-	Grid* oGrid = new Grid();
 	SDL_Renderer* renderer = nullptr;
-	
-
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	SDL_RaiseWindow(window);
+	window = SDL_CreateWindow("2048", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+		windowSize, windowSize, SDL_WINDOW_SHOWN);
+	Grid* oGrid = new Grid(renderer);
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		fprintf(stderr, "Erreur SDL_INIT_VIDEO : %s", SDL_GetError());
 		goto Quit;
 	}
-
 	while (game = true)
 	{
-		SDL_RaiseWindow(window);
-		window = SDL_CreateWindow("2048", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-			windowSize, windowSize, SDL_WINDOW_SHOWN);
-		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-		
-		oGrid->RandomTile();
+		SDL_RenderClear(renderer);
+		oGrid->RandomTile(); 
 		oGrid->ResetMerge();
-		cout << endl;
+		oGrid->Affichage();
+		SDL_RenderPresent(renderer);
 		if (oGrid->Win() == true) {
 			game = false;
 			cout << "you won !";
@@ -51,7 +49,7 @@ int main(int argc, char* argv[])
 			cout << "you lost !";
 			break;
 		}
-		bool badKey = true;
+		/*bool badKey = true;
 		while (badKey)
 		{
 			badKey = false;
@@ -74,16 +72,12 @@ int main(int argc, char* argv[])
 				badKey = true;
 				break;
 			}
-		}
+		}*/
 
 	}
 
-	delete oGrid;
-
-	
-
-
 Quit:
+	cout << "fjai";
 	if (NULL != renderer)
 		SDL_DestroyRenderer(renderer);
 	if (NULL != window)

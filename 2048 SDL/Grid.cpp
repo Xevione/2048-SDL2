@@ -1,58 +1,96 @@
 #include <iostream>
 #include "Grid.h"
 #include "Case.h"
-
+#include "Texture.h"
 #include <SDL.h>
 #include <vector>
 #include <random>
 using namespace std;
 
 
-
-Grid::Grid()
+Grid::Grid(SDL_Renderer* rendering)
 {
     grid = vector<Case>(16);
     iGridSize = grid.size();
+    renderer = rendering;
 }
 
 void Grid::Affichage() {
-    SDL_Renderer* renderer = NULL;
-    SDL_Surface* bomba = NULL;
-    SDL_Texture* bombaTexture = NULL;
-    bomba = SDL_LoadBMP("src/bomb.bmp");
-    bombaTexture = SDL_CreateTextureFromSurface(renderer, bomba);
-    for (int i = 0; i < iGridSize / 4; i++)
+    t0 = SDL_LoadBMP("src/bomba.bmp");
+    t0Texture = SDL_CreateTextureFromSurface(renderer, t0);
+    SDL_Rect backgrid;
+    backgrid.x = 250;
+    backgrid.y = 250;
+    backgrid.w = 500;
+    backgrid.h = 500;
+    SDL_Rect rect[16];
+    for (int i = 0; i < 4; i++)
     {
-        for (int j = 0; j < iGridSize / 4; j++)
+        for (int j = 0; j < 4; j++)
         {
-            
-
-            SDL_Rect grid;
-            grid.x = 250;
-            grid.y = 250;
-            grid.w = 500;
-            grid.h = 500;
-            SDL_Rect rect[16];
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 4; j++) {
-                    rect[i * 4 + j].w = 100;
-                    rect[i * 4 + j].h = 100;
-                    rect[i * 4 + j].x = 270 + 120 * i;
-                    rect[i * 4 + j].y = 270 + 120 * j;
-                }
-
-            }
-
-            SDL_RenderFillRect(renderer, &grid);
-            SDL_RenderFillRects(renderer, rect, 16);
-
+            rect[i * 4 + j].w = 100;
+            rect[i * 4 + j].h = 100;
+            rect[i * 4 + j].x = 270 + 120 * i;
+            rect[i * 4 + j].y = 270 + 120 * j;
         }
     }
+    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 0);
+    SDL_RenderFillRect(renderer, &backgrid);
+    for (int a = 0; a < 16;a++) {
+        if (grid[a].GetValue() == 0) {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
+            SDL_RenderCopy(renderer,t0Texture,NULL, &rect[a]);
+        }
+        else if (grid[a].GetValue() == 2) {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
+            SDL_RenderCopy(renderer, t0Texture, NULL, &rect[a]);
+        }
+        else if (grid[a].GetValue() == 4) {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
+            SDL_RenderCopy(renderer, t0Texture, NULL, &rect[a]);
+        }
+        else if (grid[a].GetValue() == 8) {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
+            SDL_RenderCopy(renderer, t0Texture, NULL, &rect[a]);
+        }
+        else if (grid[a].GetValue() == 16) {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
+            SDL_RenderCopy(renderer, t0Texture, NULL, &rect[a]);
+        }
+        else if (grid[a].GetValue() == 32) {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
+            SDL_RenderCopy(renderer, t0Texture, NULL, &rect[a]);
+        }
+        else if (grid[a].GetValue() == 64) {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
+            SDL_RenderCopy(renderer, t0Texture, NULL, &rect[a]);
+        }
+        else if (grid[a].GetValue() == 128) {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
+            SDL_RenderCopy(renderer, t0Texture, NULL, &rect[a]);
+        }
+        else if (grid[a].GetValue() == 256) {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
+            SDL_RenderCopy(renderer, t0Texture, NULL, &rect[a]);
+        }
+        else if (grid[a].GetValue() == 512) {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
+            SDL_RenderCopy(renderer, t0Texture, NULL, &rect[a]);
+        }
+        else if (grid[a].GetValue() == 1024) {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
+            SDL_RenderCopy(renderer, t0Texture, NULL, &rect[a]);
+        }
+        else if (grid[a].GetValue() == 2048) {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
+            SDL_RenderCopy(renderer, t0Texture, NULL, &rect[a]);
+        }
+    }
+    SDL_RenderPresent(renderer);
 }
 
 //Nous donne la position dans le tableau 1 dimension avec les coordonnées 2 dimensions
-int Grid::Position(int x, int y) 
+int Grid::Position(int x, int y)
 {
     return (x * 4 + y);
 }
@@ -63,7 +101,7 @@ void Grid::RandomTile() {
     mt19937 gen(rd());
     uniform_int_distribution<int> distribution(0, iGridSize - 1);
 
-    uniform_int_distribution<int> distrib4(0,9);
+    uniform_int_distribution<int> distrib4(0, 9);
     for (int i = 0; i < 2; i++) {
         int position = distribution(gen);
         int chance = distrib4(gen);
@@ -71,13 +109,13 @@ void Grid::RandomTile() {
             if (chance == 0) {
                 grid[position].ChangeValue(4);
             }
-            else 
+            else
             {
                 grid[position].ChangeValue(2);
             }
         }
     }
-    
+
 }
 
 void Grid::MergeTile(int x, int y) {
@@ -85,7 +123,7 @@ void Grid::MergeTile(int x, int y) {
     grid[y].ChangeValue(0);
 }
 
-void Grid::MoveTile(int x, int y) 
+void Grid::MoveTile(int x, int y)
 {
     grid[x].ChangeValue(grid[y].GetValue());
     grid[y].ChangeValue(0);
@@ -115,12 +153,12 @@ void Grid::TilePlayRight()
         for (int j = 0; j < iGridSize / 4; j++)
         {
 
-        pos = (Position(i, j));
-        temp = grid[pos].GetValue();
+            pos = (Position(i, j));
+            temp = grid[pos].GetValue();
 
             if (temp != 0)
             {
-                if (pos - 1 < i * 4) 
+                if (pos - 1 < i * 4)
                 {
                     pos = pos + 1;
                 }
@@ -168,7 +206,7 @@ void Grid::TilePlayLeft()
             temp = grid[pos].GetValue();
             if (temp != 0)
             {
-                if (pos + 1 >= (i+1) * 4)
+                if (pos + 1 >= (i + 1) * 4)
                 {
                     pos = pos + 1;
                 }
@@ -254,7 +292,7 @@ void Grid::TilePlayUp()
     }
 }
 
-void Grid::TilePlayDown() 
+void Grid::TilePlayDown()
 {
     int temp;
     int pos;
@@ -291,15 +329,15 @@ void Grid::TilePlayDown()
                 }
                 else
                 {
-                    
+
                     if (pos - 4 >= 0) {
                         if (grid[pos - 4].GetValue() != 0)
                         {
                             MoveTile(pos, pos - 4);
                         }
                     }
-                    
-                    
+
+
                 }
             }
         }
@@ -309,7 +347,7 @@ void Grid::TilePlayDown()
 
 
 //Win / Loose conditions
-                
+
 
 bool Grid::Win() {
     int val;
@@ -362,11 +400,11 @@ bool Grid::Loose() {
                         return false;
                     }
                 }
-                
+
             }
-            
+
         }
     }
     return true;
-    
+
 }

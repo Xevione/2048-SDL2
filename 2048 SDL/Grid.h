@@ -1,6 +1,7 @@
 #pragma once
 #include "Case.h"
 #include <vector>
+#include <SDL.h>
 #include <string>
 using namespace std;
 
@@ -9,8 +10,9 @@ class Grid
 public:
 	vector<Case> grid;
 	int iGridSize;
+	SDL_Renderer* renderer;
 
-	Grid();
+	Grid(SDL_Renderer* rendering);
 
 	void Affichage();
 	void ResetMerge();

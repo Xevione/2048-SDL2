@@ -19,15 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Chotaki\2048-2.0\2048\Case.cpp" />
-    <ClCompile Include="..\..\Chotaki\2048-2.0\2048\Grid.cpp" />
-    <ClCompile Include="..\..\Chotaki\2048-2.0\2048\Test.cpp" />
+    <ClCompile Include="Case.cpp" />
+    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Chotaki\2048-2.0\2048\Case.h" />
-    <ClInclude Include="..\..\Chotaki\2048-2.0\2048\Grid.h" />
-    <ClInclude Include="..\..\Chotaki\2048-2.0\2048\Test.h" />
+    <ClInclude Include="Case.h" />
+    <ClInclude Include="Grid.h" />
     <ClInclude Include="Texture.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

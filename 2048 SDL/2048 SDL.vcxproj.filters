@@ -18,27 +18,21 @@
     <ClCompile Include="main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Chotaki\2048-2.0\2048\Case.cpp">
+    <ClCompile Include="Grid.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Chotaki\2048-2.0\2048\Grid.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Chotaki\2048-2.0\2048\Test.cpp">
+    <ClCompile Include="Case.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Chotaki\2048-2.0\2048\Case.h">
-      <Filter>Fichiers de ressources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Chotaki\2048-2.0\2048\Grid.h">
-      <Filter>Fichiers de ressources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Chotaki\2048-2.0\2048\Test.h">
-      <Filter>Fichiers de ressources</Filter>
-    </ClInclude>
     <ClInclude Include="Texture.h">
+      <Filter>Fichiers de ressources</Filter>
+    </ClInclude>
+    <ClInclude Include="Case.h">
+      <Filter>Fichiers de ressources</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
       <Filter>Fichiers de ressources</Filter>
     </ClInclude>
   </ItemGroup>
