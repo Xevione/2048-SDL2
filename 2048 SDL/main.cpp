@@ -34,11 +34,11 @@ int main(int argc, char* argv[])
 	}
 	while (game = true)
 	{
-		SDL_RenderClear(renderer);
+		SDL_RenderClear(oGrid->renderer);
 		oGrid->RandomTile(); 
 		oGrid->ResetMerge();
 		oGrid->Affichage();
-		SDL_RenderPresent(renderer);
+		SDL_RenderPresent(oGrid->renderer);
 		if (oGrid->Win() == true) {
 			game = false;
 			cout << "you won !";
