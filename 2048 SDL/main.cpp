@@ -6,78 +6,83 @@
 #include <windows.h>
 #include <SDL.h>
 #include "Grid.h"
+#include "Texture.h"
 
-
-#define KEY_UP 72
-#define KEY_DOWN 80
-#define KEY_LEFT 75
-#define KEY_RIGHT 77
 
 
 
 
 int main(int argc, char* argv[])
 {
-	int windowSize = 1000;
+	int windowSize = 500;
 	int statut = EXIT_FAILURE;
 	bool game = true;
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	SDL_Event event;
+
+	
 	SDL_RaiseWindow(window);
+
 	window = SDL_CreateWindow("2048", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		windowSize, windowSize, SDL_WINDOW_SHOWN);
+
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
 	Grid* oGrid = new Grid(renderer);
+	//winTexture = SDL_CreateTextureFromSurface(oGrid->renderer, win);
+	oGrid->RandomTile();
+
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		fprintf(stderr, "Erreur SDL_INIT_VIDEO : %s", SDL_GetError());
 		goto Quit;
 	}
+	if (!window)
+	{
+		std::cout << "Failed to create window\n";
+		return -1;
+	}
+
+
 	while (game = true)
 	{
 		SDL_RenderClear(oGrid->renderer);
-		oGrid->RandomTile(); 
 		oGrid->ResetMerge();
 		oGrid->Affichage();
 		SDL_RenderPresent(oGrid->renderer);
 		if (oGrid->Win() == true) {
 			game = false;
-			cout << "you won !";
+			SDL_RenderClear(oGrid->renderer);
+			SDL_RenderPresent(oGrid->renderer);
 			break;
 		}
 		if (oGrid->Loose() == true) {
-			game = false;
-			cout << "you lost !";
+			game = false; 
+			SDL_RenderClear(oGrid->renderer);
+			SDL_RenderPresent(oGrid->renderer);
 			break;
 		}
-		/*bool badKey = true;
-		while (badKey)
-		{
-			badKey = false;
-			int c = 0;
-			switch ((c = _getch()))
-			{
-			case KEY_UP:
-				oGrid->TilePlayUp();
-				break;
-			case KEY_DOWN:
+		SDL_WaitEvent(&event);
+		if (event.type == SDL_KEYDOWN)
+			if (event.key.keysym.scancode == SDL_SCANCODE_RIGHT) {
 				oGrid->TilePlayDown();
-				break;
-			case KEY_RIGHT:
-				oGrid->TilePlayRight();
-				break;
-			case KEY_LEFT:
-				oGrid->TilePlayLeft();
-				break;
-			default:
-				badKey = true;
-				break;
+				oGrid->RandomTile();
 			}
-		}*/
-
+			else if (event.key.keysym.scancode == SDL_SCANCODE_LEFT) {
+				oGrid->TilePlayUp();
+				oGrid->RandomTile();
+			}
+			else if (event.key.keysym.scancode == SDL_SCANCODE_UP) {
+				oGrid->TilePlayLeft();
+				oGrid->RandomTile();
+			}
+			else if (event.key.keysym.scancode == SDL_SCANCODE_DOWN) {
+				oGrid->TilePlayRight();
+				oGrid->RandomTile();
+			}
 	}
 
 Quit:
-	cout << "fjai";
 	if (NULL != renderer)
 		SDL_DestroyRenderer(renderer);
 	if (NULL != window)

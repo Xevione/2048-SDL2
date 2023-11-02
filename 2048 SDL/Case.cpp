@@ -2,7 +2,7 @@
 
 Case::Case()
 {
-    valeur = 0;
+    valeur = 1024;
     merge = false;
 }
 
