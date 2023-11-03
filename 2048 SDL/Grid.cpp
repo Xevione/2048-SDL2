@@ -15,20 +15,7 @@ Grid::Grid(SDL_Renderer* rendering)
     renderer = rendering;
 }
 
-void Grid::Affichage() {
-    fondTexture = SDL_CreateTextureFromSurface(this->renderer, fond);
-    t0Texture = SDL_CreateTextureFromSurface(this->renderer, t0);
-    t2Texture = SDL_CreateTextureFromSurface(this->renderer, t2);
-    t4Texture = SDL_CreateTextureFromSurface(this->renderer, t4);
-    t8Texture = SDL_CreateTextureFromSurface(this->renderer, t8);
-    t16Texture = SDL_CreateTextureFromSurface(this->renderer, t16);
-    t32Texture = SDL_CreateTextureFromSurface(this->renderer, t32);
-    t64Texture = SDL_CreateTextureFromSurface(this->renderer, t64);
-    t128Texture = SDL_CreateTextureFromSurface(this->renderer, t128);
-    t256Texture = SDL_CreateTextureFromSurface(this->renderer, t256);
-    t512Texture = SDL_CreateTextureFromSurface(this->renderer, t512);
-    t1024Texture = SDL_CreateTextureFromSurface(this->renderer, t1024);
-    t2048Texture = SDL_CreateTextureFromSurface(this->renderer, t2048);
+void Grid::Affichage(TextureManager Texture) {
     SDL_Rect backgrid;
     backgrid.x = 0;
     backgrid.y = 0;
@@ -46,60 +33,47 @@ void Grid::Affichage() {
         }
     }
     SDL_SetRenderDrawColor(this->renderer, 0, 0, 255, 0);
-    SDL_RenderCopy(this->renderer, fondTexture, NULL, &backgrid);
+    SDL_RenderCopy(this->renderer, Texture.tableTexture[0], NULL, &backgrid);
     for (int a = 0; a < 16;a++) {
         if (grid[a].GetValue() == 0) {
-            SDL_RenderCopy(this->renderer,t0Texture,NULL, &rect[a]);
+            SDL_RenderCopy(this->renderer, Texture.tableTexture[3],NULL, &rect[a]);
         }
         else if (grid[a].GetValue() == 2) {
-            SDL_RenderCopy(this->renderer, t2Texture, NULL, &rect[a]);
+            SDL_RenderCopy(this->renderer, Texture.tableTexture[4], NULL, &rect[a]);
         }
         else if (grid[a].GetValue() == 4) {
-            SDL_RenderCopy(this->renderer, t4Texture, NULL, &rect[a]);
+            SDL_RenderCopy(this->renderer, Texture.tableTexture[5], NULL, &rect[a]);
         }
         else if (grid[a].GetValue() == 8) {
-            SDL_RenderCopy(this->renderer, t8Texture, NULL, &rect[a]);
+            SDL_RenderCopy(this->renderer, Texture.tableTexture[6], NULL, &rect[a]);
         }
         else if (grid[a].GetValue() == 16) {
-            SDL_RenderCopy(this->renderer, t16Texture, NULL, &rect[a]);
+            SDL_RenderCopy(this->renderer, Texture.tableTexture[7], NULL, &rect[a]);
         }
         else if (grid[a].GetValue() == 32) {
-            SDL_RenderCopy(this->renderer, t32Texture, NULL, &rect[a]);
+            SDL_RenderCopy(this->renderer, Texture.tableTexture[8], NULL, &rect[a]);
         }
         else if (grid[a].GetValue() == 64) {
-            SDL_RenderCopy(this->renderer, t64Texture, NULL, &rect[a]);
+            SDL_RenderCopy(this->renderer, Texture.tableTexture[9], NULL, &rect[a]);
         }
         else if (grid[a].GetValue() == 128) {
-            SDL_RenderCopy(this->renderer, t128Texture, NULL, &rect[a]);
+            SDL_RenderCopy(this->renderer, Texture.tableTexture[10], NULL, &rect[a]);
         }
         else if (grid[a].GetValue() == 256) {
-            SDL_RenderCopy(this->renderer, t256Texture, NULL, &rect[a]);
+            SDL_RenderCopy(this->renderer, Texture.tableTexture[11], NULL, &rect[a]);
         }
         else if (grid[a].GetValue() == 512) {
-            SDL_RenderCopy(this->renderer, t512Texture, NULL, &rect[a]);
+            SDL_RenderCopy(this->renderer, Texture.tableTexture[12], NULL, &rect[a]);
         }
         else if (grid[a].GetValue() == 1024) {
-            SDL_RenderCopy(this->renderer, t1024Texture, NULL, &rect[a]);
+            SDL_RenderCopy(this->renderer, Texture.tableTexture[13], NULL, &rect[a]);
         }
         else if (grid[a].GetValue() == 2048) {
-            SDL_RenderCopy(this->renderer, t2048Texture, NULL, &rect[a]);
+            SDL_RenderCopy(this->renderer, Texture.tableTexture[14], NULL, &rect[a]);
         }
     }
     SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 0);
     SDL_RenderPresent(this->renderer);
-    SDL_DestroyTexture(fondTexture);
-    SDL_DestroyTexture(t0Texture);
-    SDL_DestroyTexture(t2Texture);
-    SDL_DestroyTexture(t4Texture);
-    SDL_DestroyTexture(t8Texture);
-    SDL_DestroyTexture(t16Texture);
-    SDL_DestroyTexture(t32Texture);
-    SDL_DestroyTexture(t64Texture);
-    SDL_DestroyTexture(t128Texture);
-    SDL_DestroyTexture(t256Texture);
-    SDL_DestroyTexture(t512Texture);
-    SDL_DestroyTexture(t1024Texture);
-    SDL_DestroyTexture(t2048Texture);
 }
 
 //Nous donne la position dans le tableau 1 dimension avec les coordonnées 2 dimensions

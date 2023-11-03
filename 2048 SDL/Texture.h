@@ -1,12 +1,21 @@
 #pragma once
-#include <SDL.h>
-#include <string>
+struct SDL_Renderer;
+struct SDL_Surface;
+struct SDL_Texture;
+#include <vector>
+using namespace std;
 
 class TextureManager
 {
-	TextureManager();
-	SDL_Texture* tableTexture[15];
-	string tab[15];
+public:
+	SDL_Renderer* renderer;
+	TextureManager(SDL_Renderer* rendering);
+	vector<SDL_Surface*> tableSurface;
+	vector<SDL_Texture*> tableTexture;
+	
+
 
 	void initTexture();
+
+	~TextureManager();
 };

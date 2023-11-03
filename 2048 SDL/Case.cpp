@@ -2,16 +2,16 @@
 
 Case::Case()
 {
-    valeur = 1024;
-    merge = false;
+    this->valeur = 0;
+    this->merge = false;
 }
 
 int Case::GetValue()
 {
-    return valeur;
+    return this->valeur;
 }
 
 
 void Case::ChangeValue(int i) {
-    valeur = i;
+    this->valeur = i;
 }

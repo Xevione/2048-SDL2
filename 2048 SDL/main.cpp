@@ -9,9 +9,6 @@
 #include "Texture.h"
 
 
-
-
-
 int main(int argc, char* argv[])
 {
 	int windowSize = 500;
@@ -20,7 +17,6 @@ int main(int argc, char* argv[])
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
 	SDL_Event event;
-
 	
 	SDL_RaiseWindow(window);
 
@@ -30,8 +26,8 @@ int main(int argc, char* argv[])
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 	Grid* oGrid = new Grid(renderer);
-	//winTexture = SDL_CreateTextureFromSurface(oGrid->renderer, win);
 	oGrid->RandomTile();
+	
 
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		fprintf(stderr, "Erreur SDL_INIT_VIDEO : %s", SDL_GetError());
@@ -43,27 +39,45 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-
+	//game loop
 	while (game = true)
 	{
-		SDL_RenderClear(oGrid->renderer);
+		//texture managment
+		TextureManager* Texture = new TextureManager(renderer);
+		Texture->initTexture();
+		SDL_RenderClear(renderer);
 		oGrid->ResetMerge();
-		oGrid->Affichage();
-		SDL_RenderPresent(oGrid->renderer);
+		oGrid->Affichage(*Texture);
+
+		//win management
 		if (oGrid->Win() == true) {
+			SDL_RenderClear(oGrid->renderer);
+			TextureManager* Texture = new TextureManager(renderer);
+			Texture->initTexture();
+			SDL_RenderCopy(oGrid->renderer, Texture->tableTexture[1], NULL, NULL);
+			SDL_RenderPresent(oGrid->renderer);
 			game = false;
-			SDL_RenderClear(oGrid->renderer);
-			SDL_RenderPresent(oGrid->renderer);
-			break;
+			delete Texture;
+			SDL_Delay(2000);
+			goto Quit;
 		}
+
+		//loose managament
 		if (oGrid->Loose() == true) {
-			game = false; 
 			SDL_RenderClear(oGrid->renderer);
+			TextureManager* Texture = new TextureManager(renderer);
+			Texture->initTexture();
+			SDL_RenderCopy(oGrid->renderer, Texture->tableTexture[2], NULL, NULL);
 			SDL_RenderPresent(oGrid->renderer);
-			break;
+			game = false;
+			delete Texture;
+			SDL_Delay(2000);
+			goto Quit;
 		}
+
+		//input manager
 		SDL_WaitEvent(&event);
-		if (event.type == SDL_KEYDOWN)
+		if (event.type == SDL_KEYDOWN) {
 			if (event.key.keysym.scancode == SDL_SCANCODE_RIGHT) {
 				oGrid->TilePlayDown();
 				oGrid->RandomTile();
@@ -79,7 +93,10 @@ int main(int argc, char* argv[])
 			else if (event.key.keysym.scancode == SDL_SCANCODE_DOWN) {
 				oGrid->TilePlayRight();
 				oGrid->RandomTile();
+
 			}
+		}
+		delete Texture;
 	}
 
 Quit:

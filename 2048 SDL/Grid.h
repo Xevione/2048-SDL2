@@ -1,8 +1,8 @@
 #pragma once
-#include "Case.h"
 #include <vector>
-#include <SDL.h>
-#include <string>
+#include "Case.h"
+struct SDL_Renderer;
+class TextureManager;
 using namespace std;
 
 class Grid
@@ -14,7 +14,7 @@ public:
 
 	Grid(SDL_Renderer* rendering);
 
-	void Affichage();
+	void Affichage(TextureManager Texture);
 	void ResetMerge();
 	void RandomTile();
 
